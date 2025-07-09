@@ -1,8 +1,13 @@
 package com.tedu.element;
 
+import com.tedu.manager.ElementManager;
+import com.tedu.manager.GameElement;
+import com.tedu.show.GameJFrame;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 /**
  * @说明 所有元素的基类
@@ -109,7 +114,30 @@ public abstract class ElementOrigin {
         return this.getRectangle().intersects(org.getRectangle());
     }
 
+    /**
+     * @说明 墙壁重合检测方法 用来判断是否与墙壁发生重合的方法
+     * @return
+     */
+    public boolean isCollidingWithWall() {
+        ElementManager em = ElementManager.getManager();
+        List<ElementOrigin> walls = em.getElementsByKey(GameElement.MAPS);
+        Rectangle thisRect = this.getRectangle();
 
+        for(ElementOrigin wall : walls) {
+            if(thisRect.intersects(wall.getRectangle())) {return true;}
+        }
+
+        return false;
+    }
+
+    /**
+     * @说明 边界检测方法 用于判断元素是否出边界
+     */
+    public boolean isOutOfBounds() {
+        int gameWidth = GameJFrame.GameX;
+        int gameHeight = GameJFrame.GameY;
+        return getX() < 0 || getY() < 0 || getX()+getW() > gameWidth || getY()+getH()+30 > gameHeight;
+    }
 
 
     /**
