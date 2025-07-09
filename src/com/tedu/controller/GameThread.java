@@ -130,8 +130,8 @@ public class GameThread extends Thread {
         em.addElement(org,GameElement.PLAYER);//直接添加
 
         //创建敌人
-        for(int i = 0;i < 10;i++) {
-            em.addElement(new Enemy().createElement(""),GameElement.ENEMY);
+        for(int i = 0;i < 1;i++) {
+            em.addElement(new Enemy().createElement("0,0,300,0"),GameElement.ENEMY);
         }
     }
 
