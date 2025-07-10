@@ -127,7 +127,7 @@ public class Player extends ElementOrigin{
 
 
     protected void updateImage(long gameTime) {
-        this.setIcon(GameLoad.imgMap.get(fx));
+        this.setIcon(GameLoad.playerImgMap.get(fx));
     }
 
     /**

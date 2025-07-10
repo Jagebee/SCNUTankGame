@@ -16,16 +16,24 @@ public class GameLoad {
     //得到资源管理器
     private static ElementManager em = ElementManager.getManager();
     //  图片集合 使用map来进行存储 枚举类型配合移动
-    public static Map<String, ImageIcon> imgMap;
+    public static Map<String, ImageIcon> playerImgMap;// 主角的图片转化
+    public static Map<String, ImageIcon> enemyImgMap; //敌人的图片转换
 
     static {
-        imgMap = new HashMap<>();
-        imgMap.put("left",new ImageIcon("image/tank/play1/player1_left.png"));
-        imgMap.put("right",new ImageIcon("image/tank/play1/player1_right.png"));
-        imgMap.put("up",new ImageIcon("image/tank/play1/player1_up.png"));
-        imgMap.put("down",new ImageIcon("image/tank/play1/player1_down.png"));
+        playerImgMap = new HashMap<>();
+        playerImgMap.put("left",new ImageIcon("image/tank/play1/player1_left.png"));
+        playerImgMap.put("right",new ImageIcon("image/tank/play1/player1_right.png"));
+        playerImgMap.put("up",new ImageIcon("image/tank/play1/player1_up.png"));
+        playerImgMap.put("down",new ImageIcon("image/tank/play1/player1_down.png"));
+        //      Collections 用于集合排序的工具类，可以为所有的对象类型的记录进行排序 排序只能为Collection的子类
+    }
 
-//      Collections 用于集合排序的工具类，可以为所有的对象类型的记录进行排序 排序只能为Collection的子类
+    static {
+        enemyImgMap = new HashMap<>();
+        enemyImgMap.put("up",new ImageIcon("image/tank/bot/bot_up.png"));
+        enemyImgMap.put("down",new ImageIcon("image/tank/bot/bot_down.png"));
+        enemyImgMap.put("left",new ImageIcon("image/tank/bot/bot_left.png"));
+        enemyImgMap.put("right",new ImageIcon("image/tank/bot/bot_right.png"));
     }
 //  用户读取文件的类
     private static Properties pro = new Properties();
