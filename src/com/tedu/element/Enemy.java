@@ -27,8 +27,8 @@ public class Enemy extends ElementOrigin{
 
     private String fx;
 
-    private long lastFireTime;
-    private long fireInterval = 3000;
+    private long lastFireTime;//记录上次发射的时间
+    private long fireInterval = 1000;//发射子弹的时间间隔
     private ElementManager em;
 
     @Override
@@ -120,6 +120,29 @@ public class Enemy extends ElementOrigin{
 
     protected void updateImage(long gameTime) {
         this.setIcon(GameLoad.enemyImgMap.get(fx));
+    }
+
+    @Override
+    protected void add(long gameTime) {
+        long currentTime = System.currentTimeMillis();
+        if(currentTime - lastFireTime >= fireInterval) {
+            ElementOrigin element = new PlayFile().createElement(getBulletCreationString());
+            ElementManager.getManager().addElement(element,GameElement.PLAYFILE);
+            lastFireTime = currentTime;
+        }
+    }
+
+    private String getBulletCreationString() {
+        int x = this.getX();
+        int y = this.getY();
+        switch (this.fx) {
+            case "left": x -= 10;y += 20;break;
+            case "right": x += 50;y += 20;break;
+            case "up": x += 20;y -= 10;break;
+            case "down": x += 20;y += 50;break;
+        }
+
+        return "x:" + x + ",y:" + y + ",f:" + this.fx;
     }
 
 }
