@@ -227,6 +227,7 @@ public abstract class ElementOrigin {
         if(this.getHp() < 0) {
             this.setHp(0);
             setLive(false);
+            this.die();
         }
     }
 }

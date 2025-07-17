@@ -1,8 +1,6 @@
 package com.tedu.controller;
 
-import com.tedu.element.ElementOrigin;
-import com.tedu.element.Enemy;
-import com.tedu.element.Player;
+import com.tedu.element.*;
 import com.tedu.manager.ElementManager;
 import com.tedu.manager.GameElement;
 import com.tedu.manager.GameLoad;
@@ -18,6 +16,8 @@ import java.util.Map;
  */
 public class GameThread extends Thread {
     private ElementManager em;
+
+    private int currentLevel = 1;
 
     public GameThread() {
         em = ElementManager.getManager();
@@ -99,18 +99,22 @@ public class GameThread extends Thread {
     }
 
     public void ElementPK(List<ElementOrigin> listA, List<ElementOrigin> listB) {
-
-        //请大家在这里使用循环，做一对一判定，如果为真，就设置两个对象的死亡状态
-        for(int i = 0;i < listA.size();i++) {
-            ElementOrigin enemy = listA.get(i);
-            for(int j = 0;j < listB.size();j++) {
-                ElementOrigin file = listB.get(j);
-                if(enemy.pk(file)) {
-                    //问题：如果是boss，那么也一枪一个吗？
-                    //将setLive（false）方法变为一个受攻击方法，还可以传入另外一个对象的攻击力
-                    //当受攻击方法执行时，如果血量减为0，再进行设置生存为false
-                    enemy.setLive(false);
-                    file.setLive(false);
+        for (int i = 0; i < listA.size(); i++) {
+            ElementOrigin elementA = listA.get(i);
+            for (int j = 0; j < listB.size(); j++) {
+                ElementOrigin elementB = listB.get(j);
+                if (elementA.pk(elementB)) {
+                    if (elementA instanceof Maps && elementB instanceof PlayFile) {
+                        Maps wall = (Maps) elementA;
+                        PlayFile bullet = (PlayFile) elementB;
+                        if (!wall.isBulletPenetrable()) {
+                            wall.setLive(false);
+                            bullet.setLive(false);
+                        }
+                    } else {
+                        elementA.setLive(false);
+                        elementB.setLive(false);
+                    }
                     break;
                 }
             }

@@ -122,6 +122,10 @@ public class Enemy extends ElementOrigin{
         this.setIcon(GameLoad.enemyImgMap.get(fx));
     }
 
+    /**
+     * @说明 Enemy类的子弹发射
+     * @param gameTime
+     */
     @Override
     protected void add(long gameTime) {
         long currentTime = System.currentTimeMillis();

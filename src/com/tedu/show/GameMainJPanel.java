@@ -1,12 +1,14 @@
 package com.tedu.show;
 
 import com.tedu.element.ElementOrigin;
+import com.tedu.element.Maps;
 import com.tedu.element.Player;
 import com.tedu.manager.ElementManager;
 import com.tedu.manager.GameElement;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 import java.util.List;

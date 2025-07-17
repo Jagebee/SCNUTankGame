@@ -119,7 +119,7 @@ public class Player extends ElementOrigin{
 
         Rectangle tankRect = new Rectangle(x, y, this.getW(), this.getH());
         for(ElementOrigin wall : walls) {
-            if(tankRect.intersects(wall.getRectangle())) {
+            if (wall instanceof Maps && !((Maps) wall).isPlayerPenetrable() && tankRect.intersects(wall.getRectangle())) {
                 return true;
             }
         }
