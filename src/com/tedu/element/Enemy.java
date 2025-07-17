@@ -133,6 +133,7 @@ public class Enemy extends ElementOrigin{
             ElementOrigin element = new PlayFile().createElement(getBulletCreationString());
             if(element instanceof PlayFile) {
                 ((PlayFile)element).setAttack(20);
+                ((PlayFile)element).setEnemyBullet(true);
             }
             ElementManager.getManager().addElement(element,GameElement.PLAYFILE);
             lastFireTime = currentTime;

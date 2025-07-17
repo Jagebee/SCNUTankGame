@@ -69,6 +69,7 @@ public class GameThread extends Thread {
                 gameElementAuto(all, gameTime);
                 ElementPK(maps, files);
                 ElementPK(enemys, files);
+                ElementPK(players, files);
 
                 for (ElementOrigin player : players) {
                     for (ElementOrigin enemy : enemys) {
@@ -79,7 +80,7 @@ public class GameThread extends Thread {
                 }
 
                 for (ElementOrigin player : players) {
-                    if (player instanceof Player && ((Player) player).getHp() <= 0) {
+                    if (player instanceof Player && ((Player) player).getHp() <= 0 || !player.isLive()) {
                         System.out.println("游戏失败！");
                         player.die();
                         gameOver = true; // 设置游戏结束标志
@@ -114,7 +115,8 @@ public class GameThread extends Thread {
                     } else if (elementA instanceof Player && elementB instanceof PlayFile) {
                         Player player = (Player) elementA;
                         PlayFile bullet = (PlayFile) elementB;
-                        player.reduceHP(bullet.getAttack());
+                        player.setLive(false);
+                        player.die();
                         bullet.setLive(false); // 子弹碰撞后消失
                     } else {
                         elementA.setLive(false);

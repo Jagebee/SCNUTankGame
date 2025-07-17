@@ -15,7 +15,17 @@ public class PlayFile extends ElementOrigin{
     private int attack = 1;//攻击力
     private int moveNum = 10;//移动速度
     private String fx;
+    private boolean isEnemyBullet = false;
 //    剩下的大家扩展
+
+
+    public boolean isEnemyBullet() {
+        return isEnemyBullet;
+    }
+
+    public void setEnemyBullet(boolean enemyBullet) {
+        isEnemyBullet = enemyBullet;
+    }
 
     public PlayFile() {}
 
