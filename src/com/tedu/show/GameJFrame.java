@@ -29,6 +29,9 @@ public class GameJFrame extends JFrame {
 
     public GameJFrame() {
         init();
+//        GameStartJPanel gameStartJPanel = new GameStartJPanel(this);
+//        this.add(gameStartJPanel);
+//        this.setVisible(true);
     }
 
     public void init() {

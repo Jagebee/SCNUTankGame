@@ -61,6 +61,15 @@ public class PlayFile extends ElementOrigin{
             case "right":this.setX(this.getX()+this.moveNum);break;
         }
     }
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
     /**
      * 对于子弹来说：1.出边界 2.碰撞 3.玩家放保险
      * 处理方式就是，当达到死亡的条件时，值进行修改死亡状态的操作

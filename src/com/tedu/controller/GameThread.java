@@ -57,18 +57,39 @@ public class GameThread extends Thread {
     private long gameTime = 0L;
     private void gameRun() {
         long gameTime = 0L;
+        boolean gameOver = false;
         while (true) {//预留扩展 true可以变为变量 用于控制关卡结束等
-            Map<GameElement, List<ElementOrigin>> all = em.getGameElements();
-            List<ElementOrigin> enemys = em.getElementsByKey(GameElement.ENEMY);
-            List<ElementOrigin> files = em.getElementsByKey(GameElement.PLAYFILE);
-            List<ElementOrigin> maps = em.getElementsByKey(GameElement.MAPS);
+            if (!gameOver) {
+                Map<GameElement, List<ElementOrigin>> all = em.getGameElements();
+                List<ElementOrigin> enemys = em.getElementsByKey(GameElement.ENEMY);
+                List<ElementOrigin> files = em.getElementsByKey(GameElement.PLAYFILE);
+                List<ElementOrigin> maps = em.getElementsByKey(GameElement.MAPS);
+                List<ElementOrigin> players = em.getElementsByKey(GameElement.PLAYER);
 
-            gameElementAuto(all,gameTime);//游戏元素自动化方法
+                gameElementAuto(all, gameTime);
+                ElementPK(maps, files);
+                ElementPK(enemys, files);
 
-            ElementPK(maps,files);
-            ElementPK(enemys,files);
+                for (ElementOrigin player : players) {
+                    for (ElementOrigin enemy : enemys) {
+                        if (player.pk(enemy) && player instanceof Player) {
+                            ((Player) player).reduceHP(((Player) player).getHp());
+                        }
+                    }
+                }
 
-            gameTime++;//唯一的时间控制
+                for (ElementOrigin player : players) {
+                    if (player instanceof Player && ((Player) player).getHp() <= 0) {
+                        System.out.println("游戏失败！");
+                        player.die();
+                        gameOver = true; // 设置游戏结束标志
+                        break;
+                    }
+                }
+
+                gameTime++;
+            }
+
             try {
                 sleep(10);
             } catch (InterruptedException e) {
@@ -119,6 +140,7 @@ public class GameThread extends Thread {
      * 游戏切换关卡
      */
     private void gameOver() {
+        System.exit(0);
     }
 
     public void load() {

@@ -33,6 +33,8 @@ public class Player extends ElementOrigin{
     private boolean up = false;//上
     private boolean down = false;//下
 
+    private static final ImageIcon EXPLOSIN_ICON = new ImageIcon("image/boom/boom.png");
+
     @Override
     public void showElement(Graphics g) {
         g.drawImage(this.getIcon().getImage(),this.getX(),this.getY(),this.getW(),this.getH(),null);
@@ -171,6 +173,11 @@ public class Player extends ElementOrigin{
         return "x:" + x + ",y:" + y + ",f:" + this.fx;
     }
 
+    @Override
+    public void die() {
+        super.die();
+        setIcon(EXPLOSIN_ICON);
+    }
 //    public int getFileX() {
 //        int x;
 //        switch (this.fx) {

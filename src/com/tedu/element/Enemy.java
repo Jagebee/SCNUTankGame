@@ -127,6 +127,9 @@ public class Enemy extends ElementOrigin{
         long currentTime = System.currentTimeMillis();
         if(currentTime - lastFireTime >= fireInterval) {
             ElementOrigin element = new PlayFile().createElement(getBulletCreationString());
+            if(element instanceof PlayFile) {
+                ((PlayFile)element).setAttack(20);
+            }
             ElementManager.getManager().addElement(element,GameElement.PLAYFILE);
             lastFireTime = currentTime;
         }

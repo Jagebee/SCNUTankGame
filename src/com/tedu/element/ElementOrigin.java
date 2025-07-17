@@ -24,6 +24,27 @@ public abstract class ElementOrigin {
                             //可以采用枚举值来定义这个（生存、死亡、隐身、无敌）
 //  注明：当重新定义一个用于判定状态的变量，需要思考：1.初始化 2.值的改变 3.值的判定
     //还有。。。各种必要的状态值，例如：是否生存。
+    private int hp = 100; //对象的血量
+
+    private boolean isExploding = false;
+
+    private boolean isDying = false;
+
+    public boolean isDying() {
+        return isDying;
+    }
+
+    public void setDying(boolean dying) {
+        isDying = dying;
+    }
+
+    public boolean isExploding() {
+        return isExploding;
+    }
+
+    public void setExploding(boolean exploding) {
+        isExploding = exploding;
+    }
 
     public ElementOrigin() {} //没有实际作用，为了不报错写的
 
@@ -89,7 +110,8 @@ public abstract class ElementOrigin {
 
 //  死亡方法
     public void die() {//死亡也是一个对象
-
+        setLive(false);
+        setExploding(false);
     }
 
     public ElementOrigin createElement(String str) {
@@ -190,5 +212,21 @@ public abstract class ElementOrigin {
 
     public void setLive(boolean live) {
         this.live = live;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public void reduceHP(int damage) {
+        this.setHp(this.getHp() - damage);
+        if(this.getHp() < 0) {
+            this.setHp(0);
+            setLive(false);
+        }
     }
 }
