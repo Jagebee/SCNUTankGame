@@ -111,6 +111,11 @@ public class GameThread extends Thread {
                             wall.setLive(false);
                             bullet.setLive(false);
                         }
+                    } else if (elementA instanceof Player && elementB instanceof PlayFile) {
+                        Player player = (Player) elementA;
+                        PlayFile bullet = (PlayFile) elementB;
+                        player.reduceHP(bullet.getAttack());
+                        bullet.setLive(false); // 子弹碰撞后消失
                     } else {
                         elementA.setLive(false);
                         elementB.setLive(false);
