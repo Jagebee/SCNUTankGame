@@ -17,6 +17,8 @@ public class Enemy extends ElementOrigin{
     private int currentX, currentY; //当前位置
     private boolean movingToEnd;//是否正在向结束位置移动
 
+    private static final ImageIcon EXPLOSIN_ICON = new ImageIcon("image/boom/boom.png");
+
     public String getFx() {
         return fx;
     }
@@ -153,5 +155,10 @@ public class Enemy extends ElementOrigin{
         return "x:" + x + ",y:" + y + ",f:" + this.fx;
     }
 
+    @Override
+    public void die() {
+        super.die();
+        setIcon(EXPLOSIN_ICON);
+    }
 }
 

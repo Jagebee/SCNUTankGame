@@ -18,6 +18,7 @@ public class GameThread extends Thread {
     private ElementManager em;
 
     private int currentLevel = 1;
+    private static final int MAX_LEVEL = 3;
 
     public GameThread() {
         em = ElementManager.getManager();
@@ -29,14 +30,19 @@ public class GameThread extends Thread {
 //      游戏开始前 读进度条 加载游戏资源或场景资源
             gameLoad();
 //      游戏进行时 游戏过程中
-            gameRun();
+            boolean isClear = gameRun();
 //      游戏场景结束 游戏资源回收（场景资源）
-            gameOver();
+            gameOver(isClear);
 
             try {
-                sleep(1);
+                sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            }
+
+            if(currentLevel > MAX_LEVEL){
+                System.out.println("恭喜通过所有关卡");
+                System.exit(0);
             }
         }
     }
@@ -45,8 +51,16 @@ public class GameThread extends Thread {
      * 游戏的加载
      */
     private void gameLoad() {
-        GameLoad.MapLoad(10);//可以变为变量 每一关重新加载
-        load();
+        if(currentLevel == 1) {
+            GameLoad.MapLoad(10);
+            load(currentLevel);
+        }else if(currentLevel == 2) {
+            GameLoad.MapLoad(9);
+            load(currentLevel);
+        }else if(currentLevel == 3) {
+            GameLoad.MapLoad(3);
+            load(currentLevel);
+        }
     }
 
     /**
@@ -55,10 +69,12 @@ public class GameThread extends Thread {
      * 先实现主角的移动
      */
     private long gameTime = 0L;
-    private void gameRun() {
+    private boolean gameRun() {
         long gameTime = 0L;
         boolean gameOver = false;
-        while (true) {//预留扩展 true可以变为变量 用于控制关卡结束等
+        boolean isClear = false;
+
+        while (!gameOver) {//预留扩展 true可以变为变量 用于控制关卡结束等
             if (!gameOver) {
                 Map<GameElement, List<ElementOrigin>> all = em.getGameElements();
                 List<ElementOrigin> enemys = em.getElementsByKey(GameElement.ENEMY);
@@ -70,14 +86,15 @@ public class GameThread extends Thread {
                 ElementPK(maps, files);
                 ElementPK(enemys, files);
                 ElementPK(players, files);
+                ElementPK(players, enemys);
 
-                for (ElementOrigin player : players) {
-                    for (ElementOrigin enemy : enemys) {
-                        if (player.pk(enemy) && player instanceof Player) {
-                            ((Player) player).reduceHP(((Player) player).getHp());
-                        }
-                    }
-                }
+//                for (ElementOrigin player : players) {
+//                    for (ElementOrigin enemy : enemys) {
+//                        if (player.pk(enemy) && player instanceof Player) {
+//                            ((Player) player).reduceHP(((Player) player).getHp());
+//                        }
+//                    }
+//                }
 
                 for (ElementOrigin player : players) {
                     if (player instanceof Player && ((Player) player).getHp() <= 0 || !player.isLive()) {
@@ -88,6 +105,11 @@ public class GameThread extends Thread {
                     }
                 }
 
+                if(enemys.isEmpty()) {
+                    System.out.println("第" + currentLevel + "通关");
+                    isClear = true;
+                    gameOver = true;
+                }
                 gameTime++;
             }
 
@@ -97,6 +119,7 @@ public class GameThread extends Thread {
                 e.printStackTrace();
             }
         }
+        return isClear;
     }
 
     public void ElementPK(List<ElementOrigin> listA, List<ElementOrigin> listB) {
@@ -118,9 +141,15 @@ public class GameThread extends Thread {
                         player.setLive(false);
                         player.die();
                         bullet.setLive(false); // 子弹碰撞后消失
-                    } else {
+                    } else if(elementA instanceof Player && elementB instanceof Enemy) {
+                        Player player = (Player) elementA;
+                        player.setLive(false);
+                        player.die();
+                    }
+                    else {
                         elementA.setLive(false);
                         elementB.setLive(false);
+                        elementB.die();
                     }
                     break;
                 }
@@ -150,21 +179,30 @@ public class GameThread extends Thread {
     /**
      * 游戏切换关卡
      */
-    private void gameOver() {
-        System.exit(0);
+    private void gameOver(boolean isClear) {
+        em.getGameElements().values().forEach(List::clear);
+
+        if(isClear){
+            currentLevel++;
+        } else {
+            currentLevel = currentLevel;
+            System.out.println("重新开始");
+        }
     }
 
-    public void load() {
+    public void load(int currentLevel) {
         //图片导入
         ImageIcon icon = new ImageIcon("image/tank/play1/player1_up.png");
-        ElementOrigin org = new Player(100,100,50,50,icon);
-        //将对象放入到元素管理器中
-        //em.getElementsByKey(GameElement.PLAYER).add(org);
-        em.addElement(org,GameElement.PLAYER);//直接添加
 
-        //创建敌人
-        for(int i = 0;i < 1;i++) {
-            em.addElement(new Enemy().createElement("0,0,300,0,right"),GameElement.ENEMY);
+        //创建主角和敌人
+        switch (currentLevel) {//每个关卡单独设计主角和敌人位置
+            case 1:
+                ElementOrigin org = new Player(100,100,50,50,icon);//创建主角
+                em.addElement(org,GameElement.PLAYER);
+                em.addElement(new Enemy().createElement("0,0,300,0,right"),GameElement.ENEMY);//创建敌人
+                break;
+            case 2:break;
+            case 3:break;
         }
     }
 
