@@ -190,19 +190,49 @@ public class GameThread extends Thread {
         }
     }
 
+//    public void load(int currentLevel) {
+//        //图片导入
+//        ImageIcon icon = new ImageIcon("image/tank/play1/player1_up.png");
+//
+//        //创建主角和敌人
+//        switch (currentLevel) {//每个关卡单独设计主角和敌人位置
+//            case 1:
+//                ElementOrigin org = new Player(100,100,50,50,icon);//创建主角
+//                em.addElement(org,GameElement.PLAYER);
+//                em.addElement(new Enemy().createElement("0,0,300,0,right"),GameElement.ENEMY);//创建敌人
+//                break;
+//            case 2:break;
+//            case 3:break;
+//        }
+//    }
+
     public void load(int currentLevel) {
-        //图片导入
+        // 图片导入，加载玩家向上的图标
         ImageIcon icon = new ImageIcon("image/tank/play1/player1_up.png");
 
-        //创建主角和敌人
-        switch (currentLevel) {//每个关卡单独设计主角和敌人位置
+        // 创建主角和敌人，根据关卡不同设置不同位置
+        switch (currentLevel) {
             case 1:
-                ElementOrigin org = new Player(100,100,50,50,icon);//创建主角
-                em.addElement(org,GameElement.PLAYER);
-                em.addElement(new Enemy().createElement("0,0,300,0,right"),GameElement.ENEMY);//创建敌人
+
+                ElementOrigin org1 = new Player(100, 100, 50, 50, icon);//创建第一关主角
+                em.addElement(org1, GameElement.PLAYER);
+                em.addElement(new Enemy().createElement("0,0,300,0,right"), GameElement.ENEMY);//创建第一关敌人
                 break;
-            case 2:break;
-            case 3:break;
+            case 2:
+                // 第二关：主角位置可调整，比如(200, 200)，敌人位置等也按需改
+                ElementOrigin org2 = new Player(200, 200, 50, 50, icon);//创建第二关主角
+                em.addElement(org2, GameElement.PLAYER);
+                // 假设敌人位置改为 "100,100,300,0,down" ，方向向下等，按需调整参数
+                em.addElement(new Enemy().createElement("100,100,300,0,down"), GameElement.ENEMY);//创建第二关敌人
+                break;
+            case 3:
+                // 第三关：主角位置再调整，比如(300, 300)，敌人位置等继续改
+                ElementOrigin org3 = new Player(300, 300, 50, 50, icon);//创建第三关主角
+                em.addElement(org3, GameElement.PLAYER);
+                // 敌人位置等参数按需设置，比如 "200,200,300,0,left" ，方向向左
+                em.addElement(new Enemy().createElement("200,200,300,0,left"), GameElement.ENEMY);//创建第三关敌人
+                break;
+
         }
     }
 
