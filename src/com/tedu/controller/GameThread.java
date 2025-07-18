@@ -223,14 +223,14 @@ public class GameThread extends Thread {
                 ElementOrigin org2 = new Player(200, 200, 50, 50, icon);//创建第二关主角
                 em.addElement(org2, GameElement.PLAYER);
                 // 假设敌人位置改为 "100,100,300,0,down" ，方向向下等，按需调整参数
-                em.addElement(new Enemy().createElement("100,100,300,0,down"), GameElement.ENEMY);//创建第二关敌人
+                em.addElement(new Enemy().createElement("100,100,100,0,down"), GameElement.ENEMY);//创建第二关敌人
                 break;
             case 3:
                 // 第三关：主角位置再调整，比如(300, 300)，敌人位置等继续改
-                ElementOrigin org3 = new Player(300, 300, 50, 50, icon);//创建第三关主角
+                ElementOrigin org3 = new Player(160, 300, 50, 50, icon);//创建第三关主角
                 em.addElement(org3, GameElement.PLAYER);
                 // 敌人位置等参数按需设置，比如 "200,200,300,0,left" ，方向向左
-                em.addElement(new Enemy().createElement("200,200,300,0,left"), GameElement.ENEMY);//创建第三关敌人
+                em.addElement(new Enemy().createElement("10,200,300,200,right"), GameElement.ENEMY);//创建第三关敌人
                 break;
 
         }
